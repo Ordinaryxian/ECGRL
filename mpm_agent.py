@@ -1,6 +1,5 @@
 import pandas as pd
 import pickle
-from mpm_utils import *
 from mpm_policy import graph_nn
 from mpm_drl import REINFROCE
 from mpm_env import graph_env
@@ -33,7 +32,6 @@ target_policy.load_state_dict(policy.state_dict())
 learner = REINFROCE(policy=policy, target_policy=target_policy,learning_rate=learning_rate, gamma=gamma,
                     batch_size=batch_size, num_batches=num_batches,max_memory=max_memory)
 
-episodes_list = []
 eps = 1
 interaction_records = []
 for episode in range(episodes):
@@ -66,14 +64,7 @@ for episode in range(episodes):
         eps = 1 - (episode/episodes) * 0.95
     else:
         eps = 0.05
-    episodes_list.append(episode)
-
-#causal learning output
-policy.eval()
-with torch.no_grad():
-    vector = policy.gate().cpu().numpy()
 
 #data for IRL
-interaction_path = 'output.pkl'
-with open(interaction_path, 'wb') as f:
+with open('output.pkl', 'wb') as f:
     pickle.dump(interaction_records, f)

@@ -12,7 +12,6 @@ class graph_env(gym.Env):
         self.MPMNode = pd.read_csv(fileNode, header=0)
         self.fileCoorLabel = pd.read_csv(fileCoorLabel)
         self.label_1 = self.fileCoorLabel[self.fileCoorLabel['label']!= labelnum]
-        self.label_0 = self.fileCoorLabel[self.fileCoorLabel['label']== labelnum]
         with open(fileEdge, 'rb') as fE:
             self.MPMEdge = pickle.load(fE)
         with open(fileEdgeW, 'rb') as fEW:

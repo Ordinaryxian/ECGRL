@@ -150,11 +150,10 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     graph_encoder = GraphEncoder(in_channels=39, hidden_channels=int, out_channels=int).to(device)
     discriminator = AIRLDiscriminator(state_dim=int, action_dim=2,
-                                      hidden_dim=int, gamma=int).to(device)
+                                      hidden_dim=int, gamma=float).to(device)
     optimizer = optim.Adam(list(graph_encoder.parameters()) + list(discriminator.parameters()), lr=lr)
 
     train_airl(graph_encoder, discriminator, expert_loader, novice_loader, optimizer, device, num_epochs)
-    torch.save(discriminator.g_net.state_dict(), "output.pth")
 
 if __name__ == '__main__':
     main()

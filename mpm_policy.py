@@ -7,7 +7,7 @@ from torch_geometric.nn import global_add_pool
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-class CausalGate(nn.Module):
+class Gate(nn.Module):
     def __init__(self, dim):
         super().__init__()
         self.v = nn.Parameter(torch.zeros(dim))
@@ -19,7 +19,7 @@ class CausalGate(nn.Module):
 class graph_nn(nn.Module):
     def __init__(self, action_space=None, input_dim=2, hidden_dim1=128, hidden_dim2=64):
         super(graph_nn, self).__init__()
-        self.gate = CausalGate(input_dim)
+        self.gate = Gate(input_dim)
         self.conv1 = GCNConv(input_dim, hidden_dim1)
         self.linear1 = nn.Linear(hidden_dim1, hidden_dim2)
         self.linear2 = nn.Linear(hidden_dim2, action_space)

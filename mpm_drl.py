@@ -50,8 +50,8 @@ class REINFROCE(object):
                 next_q_values=next_action_prob[0][next_action]
                 discounted_reward_t=reward+self.gamma*next_q_values*(1-int(done))
                 loss=(current_q_values-discounted_reward_t).pow(2)
-                loss_causal = rcam_loss_reward(mask, reward)
-                total_loss+=loss + loss_causal
+                loss_corr = rcam_loss_reward(mask, reward)
+                total_loss+=loss + loss_corr
             total_loss = total_loss/len(batch_indices)
             total_loss.backward()
             self.optimizer.step()
